@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
-  FlatList,
+  ScrollView,
   Text,
   StatusBar,
   StyleSheet,
@@ -40,25 +40,22 @@ export default function App() {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
       <SafeAreaView style={styles.container}>
-        <FlatList
-          data={repositories}
-          style={styles.repositoryContainer}
-          keyExtractor={repository => repository.id}
-          renderItem={({ item: repository }) => (
+        <ScrollView style={styles.repositoryContainer}>
+
+          {repositories.map(repository => (
             <>
+
               <Text style={styles.repository} key={repository.id}>{repository.title}</Text>
 
-              <FlatList
-                data={repository.techs}
-                keyExtractor={tech => tech}
-                renderItem={({ item: tech }) => (
+              {repository.techs.map(tech => (
+                <View style={styles.techsContainer}>
                   <Text style={styles.tech} key={tech}>
                     {tech}
                   </Text>
-                )}
-              />
+                </View>
+              ))}
 
-              <View style={styles.likesContainer} key={repository.likes}>
+              <View style={styles.likesContainer}>
                 <Text
                   style={styles.likeText}
                   // Remember to replace "1" below with repository ID: {`repository-likes-${repository.id}`}
@@ -79,11 +76,9 @@ export default function App() {
               </TouchableOpacity>
 
             </>
-          )}
+          ))}
 
-        />
-
-
+        </ScrollView>
       </SafeAreaView>
     </>
   );
